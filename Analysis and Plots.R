@@ -1,4 +1,57 @@
-                                      ###0.Necessary_packages
+library(lubridate)
+install.packages("zoo")
+library(zoo)
+
+NiftyIT_price <- read_csv("C://Users//User//OneDrive//Desktop//THESIS related data work//FINAL//Nifty 2008dec31-200930sep.csv",col_types = cols(Date = col_date(format = "%d-%b-%Y")))
+
+
+##Calculating annualised volatility
+
+NiftyIT_price$Date<-month(NiftyIT_price$Date)
+
+##Calculating returns INR/USD using daily data
+NiftyIT_price$return <- c(0, diff(log(NiftyIT_price$Close)))
+
+
+
+##Calculating rolling annualised vol of daily returns
+
+NiftyIT_price$daily.vol <- rollapply(NiftyIT_price$return,
+                                     
+                                     22,
+                                     
+                                     sd,
+                                     
+                                     na.rm=TRUE,
+                                     
+                                     fill=NA,
+                                     
+                                     align='right'
+                                     
+)
+
+NiftyIT_price$ann.vol <- (NiftyIT_price$daily.vol)*sqrt(252)*100
+
+
+
+##Converting into monthly data for plotting convenience
+##Convert into monthly data by taking the average
+
+monthly <- aggregate(x = NiftyIT_price$ann.vol,
+                     
+                     by=list(unique.values = NiftyIT_price$Date),           
+                     
+                     FUN = mean)
+
+plot(monthly$x,type="l",ylab="Volatility",col="blue",col.main="red",cex.main=1.5,las=3)
+
+
+
+################################################################################################################################################################################################
+############################Below segment of this code helps importing the necessary data and building Minimal spanning tree for social network analysis########################################
+################################################################################################################################################################################################
+
+###Necessary_packages
 
 install.packages("readr")
 library(readr)
@@ -7,13 +60,13 @@ install.packages("igraph")
 library(igraph)
 
 
-                                      ###1.Importing files
+###Importing files
 
 Prices.oct_nov08 <- read_csv("C://Users//User//OneDrive//Desktop//THESIS related data work//FINAL//prices csv//oct08.csv",show_col_types = FALSE)
 Niftyoctnov <- read_csv("C://Users//User//OneDrive//Desktop//THESIS related data work///FINAL/nifty prices/octnov08.csv", col_types = cols(Date = col_date(format = "%m/%d/%Y")))
 
 
-                                      ###2.Getting returns from raw price data
+###Getting returns from raw price data
 
 Prices.oct_nov08$I3ret <- c(0, 100*diff(log(Prices.oct_nov08$I3)))
 Prices.oct_nov08$CMCret <- c(0, 100*diff(log(Prices.oct_nov08$CMC)))
@@ -31,7 +84,7 @@ Prices.oct_nov08$Wret <- c(0, 100*diff(log(Prices.oct_nov08$W)))
 Niftyoctnov$Closeret <- c(0, 100*diff(log(Niftyoctnov$Close)))
 
 
-                                       ###3.Running market model to get residual daily returns
+###Running market model to get residual daily returns
 
 I3.reg<- lm(Prices.oct_nov08$I3ret ~ Niftyoctnov$Closeret)
 CMC.reg<- lm(Prices.oct_nov08$CMCret ~ Niftyoctnov$Closeret)
@@ -90,30 +143,30 @@ Prices.oct_nov08$TechM <- Prices.oct_nov08$TechMret - const.TechM - beta.TechM*N
 Prices.oct_nov08$W <- Prices.oct_nov08$Wret - const.W - beta.W*Niftyoctnov$Closeret
 
 
-                                       ###4.Subsetting for Network plots
+###Subsetting for Network plots
 
 Netreturn<- Prices.oct_nov08[,1:13]
 
-                                       ###5.Correlation matrix
+###Correlation matrix
 
 cor_mat <- cor(Netreturn)
 
 
-                                       ###6.Generate the Network
+###Generate the Network
 
 adjm<-sqrt(2*(1-cor_mat))          #Generating the metric for network plot
 g <- graph_from_adjacency_matrix(adjm, mode="undirected", weighted=TRUE)
 
-                                       ###7.Generating the mst from graph
+###Generating the mst from graph
 
 minimal<-mst(g)
 
-                                       ###8.Coloring vertices
+###Coloring vertices
 
 V(minimal)$color <- "green"
 V(minimal)["Satyam"]$color<-"red"
 
-                                       ###9.Final Plot
+###Final Plot
 plot(minimal)
 
 #######################################################Netout_MST_Plots end here########################################## 
@@ -127,5 +180,3 @@ g <- graph_from_adjacency_matrix(cor_mat, mode="undirected", weighted=TRUE)
 V(g)$color <- "green"
 V(g)["Satyam"]$color<-"red"
 plot(g)
-
-

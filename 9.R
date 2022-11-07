@@ -1,0 +1,5 @@
+plot(Modularity, xaxt = "n")
+axis.Date(1, at = seq(as.Date("2008-04-01"),as.Date("2009-07-01") , "months",labels = c("April-08","June-08","Aug-08","Oct-08","Dec-08","Feb-09","April-09","June-09")))
+ggplot( data = Modularity, aes( Modularity$Date, Modularity$Mod ))
+  scale_x_date(breaks = as.Date(c("2008-04-01","2008-06-01","2008-08-01","2008-10-01","2008-12-01","2009-02-01","2009-04-01","2009-06-01")),labels = c("April-08","June-08","Aug-08","Oct-08","Dec-08","Feb-09","April-09","June-09"))
+               labels = c("~ '70", "~ '00"))

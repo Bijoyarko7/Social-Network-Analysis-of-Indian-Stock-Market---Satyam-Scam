@@ -1,3 +1,5 @@
+#Price volatility plots with event timeline
+
 TCS_prices$dailyvol<- rollapply(TCS_prices$`Sq. returns`,
                                
                                22,

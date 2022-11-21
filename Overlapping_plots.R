@@ -1,7 +1,7 @@
 library(lubridate)
 library(readr)
 plot59 <- read_csv("plot59.csv", col_types = cols(`Fiscal Years` = col_date(format = "%Y")))
-pdf(paste0("C:\\Users\\User\\Desktop\\THESIS related data work\\RA\\RA work\\Actual_Project\\Gross NPAs of private banks.pdf"),
+pdf(paste0("C:\\Users\\User\\OneDrive\\Desktop\\THESIS related data work\\FINAL\\R files\\Social-Network-Analysis-of-Indian-Stock-Market---Satyam-Scam\\CARs_plot.pdf"),
     height = 5, width = 10)
 
 #png(filename="graphs.png",

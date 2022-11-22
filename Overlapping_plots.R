@@ -4,17 +4,7 @@ plot59 <- read_csv("plot59.csv", col_types = cols(`Fiscal Years` = col_date(form
 pdf(paste0("C:\\Users\\User\\OneDrive\\Desktop\\THESIS related data work\\FINAL\\R files\\Social-Network-Analysis-of-Indian-Stock-Market---Satyam-Scam\\CARs_plot.pdf"),
     height = 5, width = 10)
 
-#png(filename="graphs.png",
-#bg="white",
-#height = 600,
-#width = 800,
-#)
-
 layout(rbind(1,2), heights = c(6, 2))
-
-#par(pty = "m", plt = c(0.1, 1, 0, 0.85),
-#mgp = c(3, 1, 0),
-#omd = c(0.01, 0.94, 0.01, 0.94))
 
 par(mar = c(1,4,1,2), mgp = c(3,1,0), las = 0)#Plotting_The_Timeseries_Graph
 p<- plot(DE_ratio_import$Year,DE_ratio_import$W,xlab = "",ylab = "In percentage terms", type = "l",col="blue",col.main="red",cex.main=1.5, ylim = c(-0.5,4),lwd=1.5)+lines(DE_ratio_import$Year,DE_ratio_import$TCS, xaxt = "n", type = "l",yaxt="n",col="red",col.main="red",lwd=1.5,cex.main=1.5,las=3)+lines(DE_ratio_import$Year,DE_ratio_import$Infy, xaxt = "n", type = "l",yaxt="n",col="black",col.main="red",cex.main=1.5,las=3,lwd=1.5)

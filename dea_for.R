@@ -1,7 +1,8 @@
-###Code written by: Rajeswari Sengupta
-###Date: February 2020
+###Code Author: Rajeswari Sengupta, Bijoy Ratan Ghosh
+###Date: March 2020
 ###Objective: Estimate DEA model to measure bank productivity for every year for Foreign banks
-
+##############################################################################################################################################################################
+install.packages("deaR")
 library("deaR")
 library("dplyr")
 ##Read the data file for one year
